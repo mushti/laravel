@@ -41,7 +41,11 @@ class TokenController extends AccessTokenController
         $httpRequest = request();
 
         if ($httpRequest->grant_type == 'password') {
-            // Validating user based on its type.
+
+            /**
+             * Validating user based on its type.
+             * You can place your own logic here.
+             */
             $user = \App\Models\User::where([
                 ['email', $httpRequest->username],
                 ['type', 'customer']
