@@ -32,7 +32,6 @@ class TokenController extends AccessTokenController
     /**
      * Hooks in before the AccessTokenController issues a token
      *
-     *
      * @param  ServerRequestInterface $request
      * @return mixed
      */
@@ -69,3 +68,5 @@ Now create a route in `api.php` that routes the request to our custom validation
 ```php
 Route::post('/oauth/token', 'Auth\TokenController@issueUserToken');
 ```
+> If you only want the user to authenticate with your custom validation controller, don't forget to remove the `Passport::routes()` method from the `boot()` method of your `app\Providers\AuthServiceProvider.php` file.
+> But, doing this will remove all other `passport` routes registered for other features available in the library.
