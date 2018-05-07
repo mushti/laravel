@@ -20,7 +20,7 @@ protected function mapApiRoutes()
 }
 ```
 ## Authentication
-For authentication, always use `laravel\passport` to provide token based authentication. For details on how to install and configure `passport` for your project, visit the [official documentation](https://laravel.com/docs/5.6/passport#installation) on the Laravel website.
+For authentication, always use `laravel/passport` to provide token based authentication. For details on how to install and configure `passport` for your project, visit the [official documentation](https://laravel.com/docs/5.6/passport#installation) on the Laravel website.
 ### Custom Validation
 By default, passport uses `username` and `password` to perform authentication. If you want to perform custom validation like checking if the user should have `customer` as the type, create a new controller `app\Http\Controllers\API\Auth\TokenController`. Inside the `TokenController` place the following code:
 ```php
@@ -50,8 +50,13 @@ class TokenController extends AccessTokenController
                 ['email', $httpRequest->username],
                 ['type', 'customer']
             ])->first();
+
             return password_verify($httpRequest->password, $user->password) ?
+                
+                // Issue token if validation succeeds.
                 $this->issueToken($request) : 
+                
+                // Return 422 response if validation fails.
                 response()->json([
                     "error" => "invalid_credentials",
                     "message" => "The user credentials were incorrect."
@@ -59,4 +64,8 @@ class TokenController extends AccessTokenController
         }
     }
 }
+```
+Now create a route in `api.php` that routes the request to our custom validation controller.
+```php
+Route::post('/oauth/token', 'Auth\TokenController@issueUserToken');
 ```
