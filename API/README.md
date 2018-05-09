@@ -50,7 +50,7 @@ class TokenController extends AccessTokenController
                 ['type', 'customer']
             ])->first();
 
-            return password_verify($httpRequest->password, $user->password) ?
+            return ($user && password_verify($httpRequest->password, $user->password)) ?
                 
                 // Issue token if validation succeeds.
                 $this->issueToken($request) : 
