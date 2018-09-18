@@ -22,7 +22,34 @@ protected function mapApiRoutes()
 ## Authentication
 For authentication, always use `laravel/passport` to provide token based authentication. For details on how to install and configure `passport` for your project, visit the [official documentation](https://laravel.com/docs/5.6/passport#installation) on the Laravel website.
 ### Custom Validation
-By default, passport uses `username` and `password` to perform authentication. If you want to perform custom validation like checking if the user should have `customer` as the type, create a new controller `app\Http\Controllers\API\Auth\TokenController`. Inside the `TokenController` place the following code:
+By default, passport uses `username` and `password` to perform authentication. If you want to perform custom validation like checking if the user should have `customer` as the role, there are two different methods to achieve this logic.
+##### First Method
+In the `User` class where you have used `HasApiToken` trait, you can define `findForPassport()` method in which you can define your custom validation logic.
+```php
+/**
+ * Find user for passport.
+ *
+ * @param  string $username
+ * @return mixed
+ */
+public function findForPassport($username) {
+    return $this->where('email', $username)->where('role', 'customer')->first();
+}
+```
+Similarly, if you want to play with the `password` field, you can define `validateForPassportPasswordGrant()` method in the `User` class to override default logic. Like in the following example I have completely removed the password validation check by returning `true`.
+```php
+/**
+ * Override password validation logic for passport.
+ *
+ * @param  string $password
+ * @return boolean
+ */
+public function validateForPassportPasswordGrant($password) {
+    return true;
+}
+```
+##### Second Method
+Another method to achieve custom validation, create a new controller called the `TokenController` which extends the `AccessTokenController` class or, if you already have an `AccountController` you can also extend it with `AccessTokenController`. Inside the `TokenController` or `AccountController`, place the following code:
 ```php
 use Psr\Http\Message\ServerRequestInterface;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
