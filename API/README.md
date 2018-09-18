@@ -23,7 +23,7 @@ protected function mapApiRoutes()
 For authentication, always use `laravel/passport` to provide token based authentication. For details on how to install and configure `passport` for your project, visit the [official documentation](https://laravel.com/docs/5.6/passport#installation) on the Laravel website.
 ### Custom Validation
 By default, passport uses `username` and `password` to perform authentication. If you want to perform custom validation like checking if the user should have `customer` as the role, there are two different methods to achieve this logic.
-##### First Method
+##### i. First Method
 In the `User` class where you have used `HasApiToken` trait, you can define `findForPassport()` method in which you can define your custom validation logic.
 ```php
 /**
@@ -48,7 +48,7 @@ public function validateForPassportPasswordGrant($password) {
     return true;
 }
 ```
-##### Second Method
+##### ii. Second Method
 Another method to achieve custom validation, create a new controller called the `TokenController` which extends the `AccessTokenController` class or, if you already have an `AccountController` you can also extend it with `AccessTokenController`. Inside the `TokenController` or `AccountController`, place the following code:
 ```php
 use Psr\Http\Message\ServerRequestInterface;
