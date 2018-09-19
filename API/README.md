@@ -6,8 +6,7 @@ This section focuses on how to create web services using Laravel.
         1. [Using `User` Model](#i-using-user-model)
         2. [Using `AccessTokenController`](#ii-using-accesstokencontroller)
 ## Basics
-[Back to Index](#api)
-When creating APIs for your project, always create all the API related controller files inside `app\Http\Controllers\API` folder. You don't need to mention the `API` namespace inside `api.php` routes files, rather open up the `App\Providers\RoutesServiceProvider.php` file and concatinate `\API` to the parameter of the `namespace()` function inside the `mapApiRoutes()` method.
+[[Back to Index](#api)] When creating APIs for your project, always create all the API related controller files inside `app\Http\Controllers\API` folder. You don't need to mention the `API` namespace inside `api.php` routes files, rather open up the `App\Providers\RoutesServiceProvider.php` file and concatinate `\API` to the parameter of the `namespace()` function inside the `mapApiRoutes()` method.
 ```php
 /**
  * Define the "api" routes for the application.
@@ -25,13 +24,11 @@ protected function mapApiRoutes()
 }
 ```
 ## Authentication
-[Back to Index](#api)
-For authentication, always use `laravel/passport` to provide token based authentication. For details on how to install and configure `passport` for your project, visit the [official documentation](https://laravel.com/docs/5.6/passport#installation) on the Laravel website.
+[[Back to Index](#api)] For authentication, always use `laravel/passport` to provide token based authentication. For details on how to install and configure `passport` for your project, visit the [official documentation](https://laravel.com/docs/5.6/passport#installation) on the Laravel website.
 ### Custom Validation
 By default, passport uses `username` and `password` to perform authentication. If you want to perform custom validation like checking if the user should have `customer` as the role, there are two different methods to achieve this logic.
 ##### i. Using `User` Model
-[Back to Index](#api)
-In the `User` class where you have used `HasApiToken` trait, you can define `findForPassport()` method in which you can define your custom validation logic.
+[[Back to Index](#api)] In the `User` class where you have used `HasApiToken` trait, you can define `findForPassport()` method in which you can define your custom validation logic.
 ```php
 /**
  * Find user for passport.
@@ -56,8 +53,7 @@ public function validateForPassportPasswordGrant($password) {
 }
 ```
 ##### ii. Using `AccessTokenController`
-[Back to Index](#api)
-Another method to achieve custom validation, create a new controller called the `TokenController` which extends the `AccessTokenController` class or, if you already have an `AccountController` you can also extend it with `AccessTokenController`. Inside the `TokenController` or `AccountController`, place the following code:
+[[Back to Index](#api)] Another method to achieve custom validation, create a new controller called the `TokenController` which extends the `AccessTokenController` class or, if you already have an `AccountController` you can also extend it with `AccessTokenController`. Inside the `TokenController` or `AccountController`, place the following code:
 ```php
 use Psr\Http\Message\ServerRequestInterface;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
