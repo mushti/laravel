@@ -1,6 +1,10 @@
 # API
 This section focuses on how to create web services using Laravel.
-
+1. [Basics](#basics)
+2. [Authentication](#authentication)
+...* [Custom Validation](#custom-validation)
+... ...* [Using `User` Model](#custom-validation)
+... ...* [Using `AccessTokenController`](#custom-validation)
 ## Basics
 When creating APIs for your project, always create all the API related controller files inside `app\Http\Controllers\API` folder. You don't need to mention the `API` namespace inside `api.php` routes files, rather open up the `App\Providers\RoutesServiceProvider.php` file and concatinate `\API` to the parameter of the `namespace()` function inside the `mapApiRoutes()` method.
 ```php
