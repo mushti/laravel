@@ -44,36 +44,43 @@ protected function attemptLogin(Request $request)
 ```
 
 ## EC2 Deployment
+```
 apt-get update
 apt-get upgrade
-
+```
 ### Apache 2
+```
 apt-get install apache2
 a2enmod rewrite
 service apache2 restart
-
+```
 ### PHP 7.2
+```
 add-apt-repository -y ppa:ondrej/php
 apt-get update
 apt-get install -y php7.2-fpm
 apt-get install -y php7.2
 apt-get -y install curl php-pear php7.2-mysql php7.2-dev php7.2-curl php7.2-json php7.2-mbstring php7.2-gd php7.2-intl php7.2-xml php7.2-imagick php7.2-redis php7.2-zip libapache2-mod-php 
 systemctl restart apache2
-
+```
 ### MySQL
+```
 apt-get install mysql-server
-
+```
 ### Git
+```
 apt-get install git
-
+```
 ### Composer
+```
 cd ~
 curl -sS https://getcomposer.org/installer -o composer-setup.php
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 https://composer.github.io/pubkeys.html
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-
+```
 ### Setup
+```
 cd /var/www
 rm -r html
 git clone https://gitlab.com/mushti/chalo.git
@@ -98,3 +105,4 @@ Change DocumentRoot /var/www/{project_folder}/public
         allow from all
     </Directory>
 systemctl restart apache2
+```
