@@ -54,6 +54,16 @@ apt-get install apache2
 a2enmod rewrite
 service apache2 restart
 ```
+### MySQL
+```
+apt-get install mysql-server
+mysql_secure_installation
+```
+When connecting to the MySQL database, if you get an authentication error, kindly reset your root password using the following commands:
+```
+mysql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YOUR_NEW_PASSWORD';
+```
 ### PHP 7.2
 ```
 add-apt-repository -y ppa:ondrej/php
@@ -62,10 +72,6 @@ apt-get install -y php7.2-fpm
 apt-get install -y php7.2
 apt-get -y install curl php-pear php7.2-mysql php7.2-dev php7.2-curl php7.2-json php7.2-mbstring php7.2-gd php7.2-intl php7.2-xml php7.2-imagick php7.2-redis php7.2-zip libapache2-mod-php 
 systemctl restart apache2
-```
-### MySQL
-```
-apt-get install mysql-server
 ```
 ### Git
 ```
