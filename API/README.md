@@ -5,6 +5,9 @@ This section focuses on how to create web services using Laravel.
     * [Custom Validation](#custom-validation)
         1. [Using `User` Model](#i-using-user-model)
         2. [Using `AccessTokenController`](#ii-using-accesstokencontroller)
+3. [Data Validations](#data-validations)
+    * [Phone Validation](#phone-validation)
+    * [Credit Card Validation](#credit-card-validation)
 ## Basics
 [ [Back to Index](#api) ] When creating APIs for your project, always create all the API related controller files inside `app\Http\Controllers\API` folder. You don't need to mention the `API` namespace inside `api.php` routes files, rather open up the `App\Providers\RoutesServiceProvider.php` file and concatinate `\API` to the parameter of the `namespace()` function inside the `mapApiRoutes()` method.
 ```php
@@ -101,3 +104,30 @@ Route::post('/oauth/token', 'Auth\TokenController@issueUserToken');
 ```
 > If you only want the user to authenticate with your custom validation controller, don't forget to remove the `Passport::routes()` method from the `boot()` method of your `app\Providers\AuthServiceProvider.php` file.
 > But, doing this will remove all other `passport` routes registered for other features available in the library.
+
+## Data Validations
+[ [Back to Index](#api) ] 
+### Phone Number Validation
+For phone number validation use `giggsey/libphonenumber-for-php` library. The easiest way to install this library is to use composer.
+```
+composer require giggsey/libphonenumber-for-php
+```
+Then inside `config\app.php` add an alias in the `aliases` array as follows:
+```php
+'aliases' => [
+    // ...
+    'PhoneUtility' => libphonenumber\PhoneNumberUtil::class,
+];
+```
+Now open up `AppServiceProvider` and register a new validatior in the `boot` method.
+```php
+\Validator::extend('phone', function ($attribute, $value, $parameters, $validator) {
+    $phone = \PhoneUtility::getInstance();
+    try {
+        $parsed = $phone->parse($value, request()->{$parameters[0]});
+        return $phone->isValidNumber($parsed);
+    } catch (\Exception $e) {
+        return false;
+    }
+});
+```
