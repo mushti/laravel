@@ -76,3 +76,14 @@ Change DocumentRoot /var/www/{project_folder}/public
     </Directory>
 systemctl restart apache2
 ```
+If you get the following error,
+```
+In CryptKey.php line 45:
+
+Key path "file:///home/.../public_html/storage/oauth-private.key" does not exist or is not readable
+ ```
+Run the following commands to create `oauth-private.key` and `oauth-public.key` files.
+```
+openssl genrsa -out storage/oauth-private.key 4096
+openssl rsa -in storage/oauth-private.key -pubout > storage/oauth-public.key
+```
