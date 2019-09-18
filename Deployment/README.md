@@ -7,12 +7,13 @@ Begin the deployment by updating the local package index to reflect the latest u
 apt-get update
 apt-get upgrade
 ```
-### Apache 2
+### Install Apache 2
+Now install Apache server.
 `apache2` package is available within Ubuntu's software repositories, so we will install it using `apt`.
 ```
 apt-get install apache2
 ```
-### MySQL
+### Install MySQL
 ```
 apt-get install mysql-server
 mysql_secure_installation
@@ -22,20 +23,27 @@ When connecting to the MySQL database, if you get an authentication error, kindl
 mysql
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YOUR_NEW_PASSWORD';
 ```
-### PHP 7.2
+### Install PHP
+To install `PHP` you first need to add `ppa:ondrej/php` to the `apt` repository.
 ```
 add-apt-repository -y ppa:ondrej/php
 apt-get update
-apt-get install -y php7.2-fpm
-apt-get install -y php7.2
-apt-get -y install curl php-pear php7.2-mysql php7.2-dev php7.2-curl php7.2-json php7.2-mbstring php7.2-gd php7.2-intl php7.2-xml php7.2-imagick php7.2-redis php7.2-zip libapache2-mod-php 
+```
+Now use the following command to install `php-fpm` and `php`.
+```
+apt-get install -y php-fpm
+apt-get install -y php
+```
+Now install some necessary php extensions and restart the server, using the following commands:
+```
+apt-get -y install curl php-pear php-mysql php-dev php-curl php-json php-mbstring php-gd php-intl php-xml php-imagick php-redis php-zip libapache2-mod-php
 systemctl restart apache2
 ```
-### Git
+### Install Git
 ```
 apt-get install git
 ```
-### Composer
+### Install Composer
 ```
 cd ~
 curl -sS https://getcomposer.org/installer -o composer-setup.php
@@ -81,7 +89,7 @@ If you get the following error,
 In CryptKey.php line 45:
 
 Key path "file:///home/.../public_html/storage/oauth-private.key" does not exist or is not readable
- ```
+```
 Run the following commands to create `oauth-private.key` and `oauth-public.key` files.
 ```
 openssl genrsa -out storage/oauth-private.key 4096
